@@ -4,6 +4,7 @@ package com.example.bauwensn.appollutiontest.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,12 +29,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResultFragment extends Fragment implements  RequestAPI.IRequestEvent  {
+public class ResultFragment extends Fragment  {
 
     private View vue;
     private Context context;
 
     private ListView resultsLV;
+    private List<PollutionInfo> pollutionInfos;
 
     private RequestAPI requestAPI;
 
@@ -43,29 +45,27 @@ public class ResultFragment extends Fragment implements  RequestAPI.IRequestEven
     }
 
 
+    public void setResult(@Nullable  List<PollutionInfo> pollutionInfos) {
+        this.pollutionInfos = pollutionInfos;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         vue = inflater.inflate(R.layout.fragment_result, container, false);
 
         resultsLV = vue.findViewById(R.id.lv_results);
+        showResult();
 
         return vue;
     }
 
-    public void displayResult() {
-        requestAPI = new RequestAPI();
-        requestAPI.setCallback(this);
-        requestAPI.execute();
-    }
+    private void showResult() {
+        if(pollutionInfos == null) {
+            Log.e("ERROR_RESULT", "showResult: PollutionInfos is Null!!!" );
+            return;
+        }
 
-    @Override
-    public void onRequestResult(JSONObject data) {
-
-        Log.i("EVENT", "Finish");
-
-        //Use converter
-        List<PollutionInfo> pollutionInfos = JSonConverter.ToPollutionInfos(data);
 
         List<HashMap<String, String>> adapterSource = new ArrayList<>();
         for (PollutionInfo pollutionData : pollutionInfos) {

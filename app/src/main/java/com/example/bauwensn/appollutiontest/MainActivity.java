@@ -4,22 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bauwensn.appollutiontest.Fragments.SearchFragment;
+import com.example.bauwensn.appollutiontest.Fragments.ResultFragment;
 import com.example.bauwensn.appollutiontest.models.api.PollutionInfo;
+import com.example.bauwensn.appollutiontest.tools.JSonConverter;
 import com.example.bauwensn.appollutiontest.webapi.RequestAPI;
 import com.xw.repo.BubbleSeekBar;
 
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
 
-    private SeekBar seekbar;
+public class MainActivity extends AppCompatActivity implements RequestAPI.IRequestEvent {
+
     private TextView progressTextView, bubbleTV;
     private BubbleSeekBar bubbleSeekBar;
+    private Button buttonSearch;
 
     private RequestAPI requestAPI;
 
@@ -29,39 +32,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeElements();
-        //seekBarListener();
         bubbleSeekbarListener();
-        launchFragments();
 
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequest();
+            }
+        });
     }
 
     public void initializeElements() {
 
         bubbleSeekBar = findViewById(R.id.bubble_seekbar);
-
         bubbleTV = findViewById(R.id.bubble_tv);
-
-    }
-
-    public void seekBarListener() {
-        //getting the progress value
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progressChangedValue = 0;
-
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progressChangedValue = progress;
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                progressTextView.setText("Distance: " + progressChangedValue + "km");
-                Toast.makeText(MainActivity.this, "Seek bar progress is :" + progressChangedValue,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        buttonSearch = findViewById(R.id.search_btn);
     }
 
     public void bubbleSeekbarListener() {
@@ -83,8 +68,38 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void launchFragments() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main, new SearchFragment()).commit();
+    public void sendRequest() {
+        //TODO GPS
+        double lon = 50.798207;
+        double lat = 4.330302;
 
+        String url_base = "https://wt-33346583fc23566bc0b165c1fe714805-0.sandbox.auth0-extend.com/pollution"; //uccle
+
+        String url = url_base + "?lon=" + lon + "&lat=" + lat;
+
+        int kmChoice = bubbleSeekBar.getProgress();
+        url = url + "&range=" + kmChoice;
+
+        CheckBox ckIsPark = findViewById(R.id.parc_cb);
+        if(ckIsPark.isChecked()) {
+            url += "&isPark=true";
+        }
+
+        requestAPI = new RequestAPI();
+        requestAPI.setCallback(this);
+        requestAPI.execute(url);
     }
+
+    @Override
+    public void onRequestResult(JSONObject data) {
+
+        //Use converter
+        List<PollutionInfo> pollutionInfos = JSonConverter.ToPollutionInfos(data);
+        ResultFragment frag = new ResultFragment();
+        frag.setResult(pollutionInfos);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_main, frag).commit();
+        Toast.makeText(this, data.toString(), Toast.LENGTH_LONG).show();
+    }
+
 }

@@ -19,28 +19,32 @@ public abstract class JSonConverter {
         ArrayList<PollutionInfo> pollutionInfos = new ArrayList<>();
 
         try {
+
             JSONArray results = json.getJSONArray("results");
+            int nbResult = json.getInt("nbrResults");
 
-            JSONObject one = results.getJSONObject(0);
-            String deviceID = one.getString("deviceId");
+            for (int i = 0; i < nbResult; i++) {
 
-            Date date = new Date(one.getLong("date") * 1000L);
+                JSONObject pollutiondata = results.getJSONObject(i);
+                String deviceID = pollutiondata.getString("deviceId");
 
-            int dioxCarb = one.getInt("co2");
-            int tvoc = one.getInt("TVOC");
+                Date date = new Date(pollutiondata.getLong("date") * 1000L);
 
-            double latitude = one.getDouble("lat");
-            double longitude = one.getDouble("long");
+                int dioxCarb = pollutiondata.getInt("co2");
+                int tvoc = pollutiondata.getInt("TVOC");
 
-            PollutionInfo pollutionInfo = new PollutionInfo(
-                    longitude,
-                    latitude,
-                    dioxCarb,
-                    tvoc,
-                    deviceID,
-                    date);
-            pollutionInfos.add(pollutionInfo);
+                double latitude = pollutiondata.getDouble("lat");
+                double longitude = pollutiondata.getDouble("long");
 
+                PollutionInfo pollutionInfo = new PollutionInfo(
+                        longitude,
+                        latitude,
+                        dioxCarb,
+                        tvoc,
+                        deviceID,
+                        date);
+                pollutionInfos.add(pollutionInfo);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

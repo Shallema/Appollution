@@ -12,7 +12,7 @@
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5.5">
+        android:layout_weight="6">
 
         <RelativeLayout
             android:id="@+id/top_relative"
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/top_relative"
-            android:layout_marginTop="42dp">
+            android:layout_marginTop="30dp">
 
             <com.xw.repo.BubbleSeekBar
                 android:id="@+id/bubble_seekbar"
@@ -112,10 +112,10 @@
         <RelativeLayout
             android:id="@+id/checkbox_zone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="53dp"
             android:layout_below="@id/seekbar_zone"
             android:layout_marginLeft="18dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="1dp"
             android:padding="16dp">
 
             <LinearLayout
@@ -173,13 +173,22 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/checkbox_zone"
+            android:layout_centerHorizontal="true"
+            android:text="Lancer la recherche"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/fragment_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6" />
+        android:layout_weight="4" />
 
 
 </LinearLayout>

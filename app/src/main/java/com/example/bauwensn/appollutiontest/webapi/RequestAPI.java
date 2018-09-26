@@ -30,14 +30,13 @@ public class RequestAPI extends AsyncTask<String, Void, JSONObject> {
 
 
     @Override
-    protected JSONObject doInBackground(String... params) {
-
-        final String URL_BASE = "https://wt-33346583fc23566bc0b165c1fe714805-0.sandbox.auth0-extend.com/pollution"; //uccle
-        final String URL;
-
+    protected JSONObject doInBackground(String... url) {
+        if(url.length != 1) {
+            return  null;
+        }
         //region --Connexion à l'API
         Connection conec = new Connection();
-        String requestURL = URL_BASE;
+        String requestURL = url[0];
         String requestResult = conec.connection(requestURL);
 
         JSONObject json = null;
