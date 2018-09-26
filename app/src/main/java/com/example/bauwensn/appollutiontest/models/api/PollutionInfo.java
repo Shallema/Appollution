@@ -5,23 +5,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 public class PollutionInfo {
 
-    private String message;
+    private String deviceID;
     private double longitude, latitude;
-    private int dioxCarb, tvoc, nbResult, deviceID;
+    private int dioxCarb, tvoc;
     private Date date;
 
     //region Getters & Setters
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public double getLongitude() {
         return longitude;
@@ -55,19 +48,12 @@ public class PollutionInfo {
         this.tvoc = tvoc;
     }
 
-    public int getNbResult() {
-        return nbResult;
-    }
 
-    public void setNbResult(int nbResult) {
-        this.nbResult = nbResult;
-    }
-
-    public int getDeviceID() {
+    public String getDeviceID() {
         return deviceID;
     }
 
-    public void setDeviceID(int deviceID) {
+    public void setDeviceID(String deviceID) {
         this.deviceID = deviceID;
     }
 
@@ -85,34 +71,16 @@ public class PollutionInfo {
 
 
 
-    public PollutionInfo(String message, double longitude, double latitude, int dioxCarb, int tvoc, int nbResult, int deviceID, Date date) {
-        this.message = message;
+    public PollutionInfo(double longitude, double latitude, int dioxCarb, int tvoc, String deviceID, Date date) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.dioxCarb = dioxCarb;
         this.tvoc = tvoc;
-        this.nbResult = nbResult;
         this.deviceID = deviceID;
         this.date = date;
     }
 
     //endregion
 
-    //region Parsing JSON
 
-    public PollutionInfo(JSONObject json) throws JSONException {
-        JSONArray results = json.getJSONArray("results");
-        JSONObject one = results.getJSONObject(0);
-        this.deviceID = one.getInt("deviceId");
-
-        this.date = new Date(one.getLong("date") * 1000L);
-
-        this.dioxCarb = one.getInt("co2");
-        this.tvoc = one.getInt("TVOC");
-
-        this.latitude = one.getDouble("lat");
-        this.longitude = one.getDouble("long");
-    }
-
-    //endregion
 }
