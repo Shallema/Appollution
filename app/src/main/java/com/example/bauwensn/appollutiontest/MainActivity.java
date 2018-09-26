@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements RequestAPI.IReque
     private TextView progressTextView, bubbleTV;
     private BubbleSeekBar bubbleSeekBar;
     private Button buttonSearch;
+    private CheckBox ckIsPark, ckIsPromenade, ckIsRunning;
 
     private RequestAPI requestAPI;
 
@@ -73,16 +74,26 @@ public class MainActivity extends AppCompatActivity implements RequestAPI.IReque
         double lon = 50.798207;
         double lat = 4.330302;
 
-        String url_base = "https://wt-33346583fc23566bc0b165c1fe714805-0.sandbox.auth0-extend.com/pollution"; //uccle
+        String url_base = "https://wt-33346583fc23566bc0b165c1fe714805-0.sandbox.auth0-extend.com/pollution";
 
-        String url = url_base + "?lon=" + lon + "&lat=" + lat;
+        String url = url_base + "?long=" + lon + "&lat=" + lat;
 
-        int kmChoice = bubbleSeekBar.getProgress();
-        url = url + "&range=" + kmChoice;
+        int kmChoice = bubbleSeekBar.getProgress() * 1000;
+        url += "&range=" + kmChoice;
 
-        CheckBox ckIsPark = findViewById(R.id.parc_cb);
+        ckIsPark = findViewById(R.id.parc_cb);
         if(ckIsPark.isChecked()) {
             url += "&isPark=true";
+        }
+
+        ckIsPromenade = findViewById(R.id.promenade_cb);
+        if(ckIsPromenade.isChecked()) {
+            url += "&isPromenade=true";
+        }
+
+        ckIsRunning = findViewById(R.id.running_cb);
+        if(ckIsRunning.isChecked()) {
+            url += "&isRunning=true";
         }
 
         requestAPI = new RequestAPI();
@@ -99,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements RequestAPI.IReque
         frag.setResult(pollutionInfos);
 
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_main, frag).commit();
-        Toast.makeText(this, data.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, data.toString(), Toast.LENGTH_LONG).show();
     }
 
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_result_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NAME PARK"
+        android:textSize="24sp"
+        android:fontFamily="@font/courier_bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Co2:"
+            android:layout_marginEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/courier_regular"/>
+
+        <TextView
+            android:id="@+id/item_result_co"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MESURE"
+            android:fontFamily="@font/courier_regular"/>
+
+
+        <TextView
+            android:text="TVOC:"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/courier_regular"/>
+
+        <TextView
+            android:id="@+id/item_result_tvoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MESURE"
+            android:fontFamily="@font/courier_regular"/>
+
+    </LinearLayout>
+
+</LinearLayout>

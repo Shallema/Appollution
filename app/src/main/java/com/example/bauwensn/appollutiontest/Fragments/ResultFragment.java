@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bauwensn.appollutiontest.R;
+import com.example.bauwensn.appollutiontest.adapter.PollutionAdapter;
 import com.example.bauwensn.appollutiontest.models.api.PollutionInfo;
 import com.example.bauwensn.appollutiontest.tools.JSonConverter;
 import com.example.bauwensn.appollutiontest.webapi.RequestAPI;
@@ -67,25 +68,23 @@ public class ResultFragment extends Fragment  {
         }
 
 
-        List<HashMap<String, String>> adapterSource = new ArrayList<>();
-        for (PollutionInfo pollutionData : pollutionInfos) {
-            HashMap<String, String> element = new HashMap<>();
-            element.put("co2", pollutionData.getDioxCarb() + "");
-            element.put("TVOC", pollutionData.getTvoc() +"");
-            adapterSource.add(element);
-        }
-
-        SimpleAdapter adapter = new SimpleAdapter(
-                this.getContext(),
-                adapterSource,
-                android.R.layout.simple_list_item_2,
-                new String[]{"co2", "TVOC"},
-                new int[]{android.R.id.text1, android.R.id.text2}
-        );
-
+//        List<HashMap<String, String>> adapterSource = new ArrayList<>();
+//        for (PollutionInfo pollutionData : pollutionInfos) {
+//            HashMap<String, String> element = new HashMap<>();
+//            element.put("deviceId", pollutionData.getDeviceID() + "");
+//            element.put("co2", pollutionData.getDioxCarb() + "");
+//            element.put("TVOC", pollutionData.getTvoc() +"");
+//            adapterSource.add(element);
+//        }
+//
+//        SimpleAdapter adapter = new SimpleAdapter(
+//                this.getContext(),
+//                adapterSource,
+//                android.R.layout.simple_list_item_2,
+//                new String[]{"deviceId", "co2"},
+//                new int[]{android.R.id.text1, android.R.id.text2}
+//        );
+        PollutionAdapter adapter = new PollutionAdapter(this.getContext(), pollutionInfos);
         resultsLV.setAdapter(adapter);
     }
-
-
-
 }

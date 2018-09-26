@@ -34,7 +34,7 @@ public abstract class JSonConverter {
                 int tvoc = pollutiondata.getInt("TVOC");
 
                 double latitude = pollutiondata.getDouble("lat");
-                double longitude = pollutiondata.getDouble("long");
+                double longitude = pollutiondata.getDouble("longi");
 
                 PollutionInfo pollutionInfo = new PollutionInfo(
                         longitude,
