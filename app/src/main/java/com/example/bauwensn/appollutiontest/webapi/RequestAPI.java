@@ -56,21 +56,6 @@ public class RequestAPI extends AsyncTask<String, Void, JSONObject> {
 
         //endregion
 
-        for (int i = 0; i < 15; i++) {
-
-            JSONArray results = json.getJSONArray("results");
-            JSONObject one = results.getJSONObject(0);
-            int deviceID = one.getInt("deviceId");
-
-            Date date = new Date(one.getLong("date") * 1000L);
-
-            int dioxCarb = one.getInt("co2");
-            int tvoc = one.getInt("TVOC");
-
-            Double latitude = one.getDouble("lat");
-            Double longitude = one.getDouble("long");
-        }
-
         return json;
     }
 
