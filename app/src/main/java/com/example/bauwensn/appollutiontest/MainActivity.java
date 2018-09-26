@@ -15,7 +15,7 @@ import com.xw.repo.BubbleSeekBar;
 
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements RequestAPI.IRequestEvent {
+public class MainActivity extends AppCompatActivity {
 
     private SeekBar seekbar;
     private TextView progressTextView, bubbleTV;
@@ -81,18 +81,6 @@ public class MainActivity extends AppCompatActivity implements RequestAPI.IReque
 
             }
         });
-    }
-
-    public void displayResult() {
-        requestAPI = new RequestAPI();
-        requestAPI.setCallback(this);
-        requestAPI.execute();
-    }
-
-    @Override
-    public void onRequestResult(JSONObject data) {
-
-        Toast.makeText(this, data.toString(), Toast.LENGTH_LONG).show();
     }
 
     private void launchFragments() {
