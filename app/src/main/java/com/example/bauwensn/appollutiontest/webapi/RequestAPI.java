@@ -5,8 +5,11 @@ import android.os.AsyncTask;
 import com.example.bauwensn.appollutiontest.models.api.Connection;
 import com.example.bauwensn.appollutiontest.models.api.PollutionInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class RequestAPI extends AsyncTask<String, Void, JSONObject> {
 
@@ -52,6 +55,21 @@ public class RequestAPI extends AsyncTask<String, Void, JSONObject> {
         }
 
         //endregion
+
+        for (int i = 0; i < 15; i++) {
+
+            JSONArray results = json.getJSONArray("results");
+            JSONObject one = results.getJSONObject(0);
+            int deviceID = one.getInt("deviceId");
+
+            Date date = new Date(one.getLong("date") * 1000L);
+
+            int dioxCarb = one.getInt("co2");
+            int tvoc = one.getInt("TVOC");
+
+            Double latitude = one.getDouble("lat");
+            Double longitude = one.getDouble("long");
+        }
 
         return json;
     }
