@@ -3,6 +3,7 @@ package com.example.bauwensn.appollutiontest.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.bauwensn.appollutiontest.R;
 import com.example.bauwensn.appollutiontest.models.api.PollutionInfo;
+import com.example.bauwensn.appollutiontest.tools.JSonConverter;
 import com.example.bauwensn.appollutiontest.webapi.RequestAPI;
 
 import org.json.JSONObject;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ResultFragment extends Fragment {
+public class ResultFragment extends Fragment implements  RequestAPI.IRequestEvent  {
 
     private View vue;
     private Context context;
@@ -42,7 +44,7 @@ public class ResultFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         vue = inflater.inflate(R.layout.fragment_result, container, false);
 
@@ -53,7 +55,7 @@ public class ResultFragment extends Fragment {
 
     public void displayResult() {
         requestAPI = new RequestAPI();
-        requestAPI.setCallback(this.getContext());
+        requestAPI.setCallback(this);
         requestAPI.execute();
     }
 
@@ -62,11 +64,14 @@ public class ResultFragment extends Fragment {
 
         Log.i("EVENT", "Finish");
 
+        //Use converter
+        List<PollutionInfo> pollutionInfos = JSonConverter.ToPollutionInfos(data);
+
         List<HashMap<String, String>> adapterSource = new ArrayList<>();
-        for (PollutionInfo pollutionData : data.getDeviceID()) {
+        for (PollutionInfo pollutionData : pollutionInfos) {
             HashMap<String, String> element = new HashMap<>();
-            element.put("co2", pollutionData.getDioxCarb());
-            element.put("TVOC", pollutionData.getTvoc());
+            element.put("co2", pollutionData.getDioxCarb() + "");
+            element.put("TVOC", pollutionData.getTvoc() +"");
             adapterSource.add(element);
         }
 
